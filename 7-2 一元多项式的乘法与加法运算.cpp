@@ -91,27 +91,35 @@ node * AddList(node * p1, node *p2)     //receive 2 pointers and return the AddL
     node * p, * head;
     head = new node;
     p = head;
+
     int expo1, expo2;
-    while ( p1->next || p2->next ) {
-        expo1 = p1->expo;
-        expo2 = p2->expo;
+    expo1 = p1->expo;
+    expo2 = p2->expo;
+    if ( expo1 > expo2 ) {//copy
         p->next = new node;
-        p->next = NULL;
-        if ( expo1 > expo2 ) {
-            p->expo = p1->expo;
-            p->coef = p1->coef;
-            p1 = p1->next;
-        }else if ( expo1 < expo2 ) {
-            p->expo = p2->expo;
-            p->coef = p2->coef;
-            p2 = p2->next;
-        }else {
-            p->expo = p1->expo;
-            p->coef = p1->coef + p2->coef;
-            p1 = p1->next;
-            p2 = p2->next;
-        }
         p = p->next;
+        p->next = NULL;
+        p->expo = p1->expo;
+        p->coef = p1->coef;
+        p1 = p1->next;
+    }else if ( expo1 < expo2 ) {
+        p->next = new node;
+        p = p->next;
+        p->next = NULL;
+        p->expo = p2->expo;
+        p->coef = p2->coef;
+        p2 = p2->next;
+    }else {
+        int coef = p1->coef + p2->coef;
+        if ( coef ) {
+            p->next = new node;
+            p = p->next;
+            p->next = NULL;
+            p->expo = p1->expo;
+            p->coef = coef;
+        }
+        p1 = p1->next;
+        p2 = p2->next;
     }
     return head;
 }
